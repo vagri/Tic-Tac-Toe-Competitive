@@ -1,0 +1,242 @@
+/* ================( Body & background) ============== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3c72, #2a5298, #ff0000, #8e0e00);
+  background-size: 300% 300%;
+  animation: gradientShift 10s ease infinite;
+  color: white;
+  text-align: center;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ================( Lobby Page ) ============== */
+
+h1, h2 {
+  font-weight: bold;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+}
+h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.button-container {
+  display: grid;
+  gap: 15px;
+  width: 220px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 20px rgba(0, 170, 255, 0.4), 0 0 20px rgba(255, 0, 0, 0.4);
+}
+button {
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+  transition: transform 0.2s, background-color 0.2s;
+}
+button:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+button:active {
+  transform: scale(0.97);
+}
+
+/* Fade-in animation for views */
+#app > div {
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ================( Profile Page ) ============== */
+#profile-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00ffff; /* cool neon cyan */
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+}
+
+.profile-stats {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.profile-rank {
+  font-size: 1.5rem;
+  margin-top: 10px;
+  background: linear-gradient(90deg, #ff0000, #0000ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.rank-name {
+  display: block;
+  font-size: 1.8rem;
+  margin-top: 5px;
+}
+
+/* ================( Leaderboard Page ) ============== */
+.leaderboard-container {
+  max-height: 300px; /* scrollable table */
+  overflow-y: auto;
+  width: 90%;
+  margin: 0 auto 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  padding: 10px;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+.leaderboard-table th, .leaderboard-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.leaderboard-table th {
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 1;
+}
+.leaderboard-table tr:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.first-place {
+  background: linear-gradient(90deg, #FFD700, #FFF700); /* gold */
+  font-weight: bold;
+  color: #000;
+}
+.second-place {
+  background: linear-gradient(90deg, #C0C0C0, #E0E0E0); /* silver */
+  font-weight: bold;
+  color: #000;
+}
+.third-place {
+  background: linear-gradient(90deg, #CD7F32, #D2691E); /* bronze */
+  font-weight: bold;
+  color: #fff;
+}
+
+/* ================( Match Page ) ============== */
+/* Match Page */
+#match-view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Header with players and turn info */
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+.player-info {
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+}
+
+.player-rank {
+  font-size: 0.9rem;
+  margin-top: 4px;
+  text-shadow: 1px 1px 2px black;
+}
+
+.turn-info {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  flex: 1;
+}
+
+/* Tic Tac Toe board */
+.tic-tac-toe-board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 5px;
+}
+
+.cell {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.cell:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Surrender button */
+.surrender-button {
+  padding: 10px 25px;
+  background: linear-gradient(135deg, #ff4d4d, #ff0000);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.surrender-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+
+
