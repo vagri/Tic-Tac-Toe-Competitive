@@ -14,10 +14,11 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
+    // ---------------- GET PLAYER INFO ----------------
     @PostMapping("/start")
     @ResponseBody
     public Map<String, Object> startGame() {
-        gameService.startNewGame();
+        gameService.initializePlayers();
         Player p1 = gameService.getPlayer1();
         Player p2 = gameService.getPlayer2();
 
@@ -29,5 +30,17 @@ public class GameController {
         );
     }
 
+    // ---------------- SET STARTER AND START GAME ----------------
+    @PostMapping("/starter")
+    @ResponseBody
+    public Map<String, String> setStarter(@RequestBody Map<String, String> payload) {
+        String starterKey = payload.get("starter"); // "player1" or "player2"
 
+        gameService.startGame(starterKey);
+
+        return Map.of(
+                "message", "Starter set successfully",
+                "starter", starterKey
+        );
+    }
 }

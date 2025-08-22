@@ -158,28 +158,42 @@ button:active {
 }
 
 /* ================( Match Page ) ============== */
-/* Match Page */
 #match-view {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 30px; /* space between header and tip */
   animation: fadeIn 0.5s ease-in-out;
 }
 
-/* Header with players and turn info */
+/* ==================== Match Header ==================== */
 .match-header {
+  position: relative;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start; /* keeps players aligned at top */
   width: 90%;
   max-width: 600px;
+  padding-top: 50px; /* room for the turn-info above */
 }
 
+/* Player Info (both choose-first and match) */
 .player-info {
   text-align: center;
   font-weight: bold;
   text-shadow: 1px 1px 2px black;
+  width: 150px;
+  padding: 10px;
+  border: 2px solid white;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.player-info:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
 .player-rank {
@@ -188,14 +202,46 @@ button:active {
   text-shadow: 1px 1px 2px black;
 }
 
-.turn-info {
+/* ==================== Turn Info ==================== */
+/* Match screen turn info (absolute, above board) */
+.match-header .turn-info {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
-  flex: 1;
 }
 
-/* Tic Tac Toe board */
+/* Choose-first screen turn info (static, above buttons) */
+.choose-header .choose-turn-info {
+  position: static;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+/* ==================== Choose Screen Tip ==================== */
+#choose-first-tip {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  opacity: 0.9;
+}
+
+/* ==================== Choose Screen Layout ==================== */
+.choose-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* ==================== Tic Tac Toe Board ==================== */
 .tic-tac-toe-board {
   display: grid;
   grid-template-columns: repeat(3, 100px);
@@ -220,7 +266,7 @@ button:active {
   transform: scale(1.05);
 }
 
-/* Surrender button */
+/* ==================== Surrender Button ==================== */
 .surrender-button {
   padding: 10px 25px;
   background: linear-gradient(135deg, #ff4d4d, #ff0000);

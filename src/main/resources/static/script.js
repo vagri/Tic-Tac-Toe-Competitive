@@ -16,64 +16,100 @@ function renderLobby() {
   `;
 }
 
-/* ---------------- MATCH ---------------- */
+/* -------------------- MATCH ---------------------- */
 async function renderMatch() {
-    try {
-        // ---------------- API CALL ----------------
-        const response = await fetch('http://localhost:8080/game/start', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        });
+  try {
+    const playerInfo = await window.startSingleplayerGame();
 
-        if (!response.ok) throw new Error('Failed to start the game');
+    // Build player objects (names + ranks)
+    const player1 = { name: playerInfo.player1Name, rank: playerInfo.player1Rank, color: 'blue' };
+    const player2 = { name: playerInfo.player2Name, rank: playerInfo.player2Rank, color: 'red' };
 
-        const playerInfo = await response.json();
+    // Save so we don’t pass long strings through inline onclick
+    window.currentPlayers = { player1, player2 };
 
-        // ---------------- PLAYER OBJECTS ----------------
-        const player1 = { name: playerInfo.player1Name, rank: playerInfo.player1Rank };
-        const player2 = { name: playerInfo.player2Name, rank: playerInfo.player2Rank };
-
-        // ---------------- RENDER MATCH ----------------
-        app.innerHTML = `
-            <div id="match-view">
-                <div class="match-header">
-                    <div class="player-info player-left">
-                        <div class="player-name" style="color:blue">${player1.name}</div>
-                        <div class="player-rank" style="color:blue">${player1.rank}</div>
-                    </div>
-
-                    <div class="turn-info">
-                        ${player1.name}'s Turn
-                    </div>
-
-                    <div class="player-info player-right">
-                        <div class="player-name" style="color:red">${player2.name}</div>
-                        <div class="player-rank" style="color:red">${player2.rank}</div>
-                    </div>
-                </div>
-
-                <div class="tic-tac-toe-board">
-                    <div class="cell" id="cell-0"></div>
-                    <div class="cell" id="cell-1"></div>
-                    <div class="cell" id="cell-2"></div>
-                    <div class="cell" id="cell-3"></div>
-                    <div class="cell" id="cell-4"></div>
-                    <div class="cell" id="cell-5"></div>
-                    <div class="cell" id="cell-6"></div>
-                    <div class="cell" id="cell-7"></div>
-                    <div class="cell" id="cell-8"></div>
-                </div>
-
-                <button class="surrender-button" onclick="renderLobby()">Surrender</button>
-            </div>
-        `;
-    } catch (error) {
-        console.error('Error rendering match:', error);
-        app.innerHTML = `<div class="error">Could not start the game. Try again later.</div>`;
-    }
+    // Show the choose-first screen
+    renderChooseFirst(player1, player2);
+  } catch (error) {
+    console.error('Error rendering match:', error);
+    app.innerHTML = `<div class="error">Could not start the game. Try again later.</div>`;
+  }
 }
 
+function renderChooseFirst(player1, player2) {
+  app.innerHTML = `
+    <div id="match-view">
+      <div class="choose-header">
+        <div class="choose-turn-info">Choose Who Starts First</div>
 
+        <button class="player-info player-left" onclick="startMatch('player1')">
+          <div class="player-name" style="color:${player1.color}">${player1.name}</div>
+          <div class="player-rank" style="color:${player1.color}">${player1.rank}</div>
+        </button>
+
+        <button class="player-info player-right" onclick="startMatch('player2')">
+          <div class="player-name" style="color:${player2.color}">${player2.name}</div>
+          <div class="player-rank" style="color:${player2.color}">${player2.rank}</div>
+        </button>
+      </div>
+
+      <div id="choose-first-tip">
+        Starting second grants more ELO
+      </div>
+    </div>
+  `;
+}
+
+async function startMatch(starterKey) {
+  const { player1, player2 } = window.currentPlayers || {};
+  if (!player1 || !player2) {
+    console.error('Players not initialized');
+    return renderLobby();
+  }
+
+  try {
+    await window.sendStarterChoice(starterKey);
+
+    const starter = starterKey === 'player1' ? player1 : player2;
+
+    app.innerHTML = `
+      <div id="match-view">
+        <div class="match-header">
+          <div class="player-info player-left">
+            <div class="player-name" style="color:${player1.color}">${player1.name}</div>
+            <div class="player-rank" style="color:${player1.color}">${player1.rank}</div>
+          </div>
+
+          <div class="turn-info">
+            ${starter.name}'s Turn
+          </div>
+
+          <div class="player-info player-right">
+            <div class="player-name" style="color:${player2.color}">${player2.name}</div>
+            <div class="player-rank" style="color:${player2.color}">${player2.rank}</div>
+          </div>
+        </div>
+
+        <div class="tic-tac-toe-board">
+          <div class="cell" id="cell-0"></div>
+          <div class="cell" id="cell-1"></div>
+          <div class="cell" id="cell-2"></div>
+          <div class="cell" id="cell-3"></div>
+          <div class="cell" id="cell-4"></div>
+          <div class="cell" id="cell-5"></div>
+          <div class="cell" id="cell-6"></div>
+          <div class="cell" id="cell-7"></div>
+          <div class="cell" id="cell-8"></div>
+        </div>
+
+        <button class="surrender-button" onclick="renderLobby()">Surrender</button>
+      </div>
+    `;
+  } catch (error) {
+    console.error('Error starting match:', error);
+    app.innerHTML = `<div class="error">Could not start the game. Try again later.</div>`;
+  }
+}
 
 /* ---------------- PROFILE ---------------- */
 function renderProfile() {

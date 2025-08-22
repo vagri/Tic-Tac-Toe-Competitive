@@ -9,21 +9,26 @@ public class GameService {
 
     private Player player1;
     private Player player2;
-
+    private Player starter; // who goes first
     private Board board;
 
-    public GameService() {
-        player1 = new Player("Player 1", "Novice");
-        player2 = new Player("Player 2", "Novice");
+    public void initializePlayers() {
+        player1 = new Player("Swag", "High Schooler");
+        player2 = new Player("AI", "Easy");
+        starter = null; // no starter chosen yet
+        board = null;   // board not started yet
+    }
+
+    public void startGame(String starterKey) {
+        if (player1 == null || player2 == null) {
+            throw new IllegalStateException("Players not initialized");
+        }
+
         board = new Board();
-    }
-
-    public void startNewGame() {
         board.resetBoard();
-    }
 
-    public Board getBoard() {
-        return board;
+        starter = "player1".equals(starterKey) ? player1 : player2;
+        //System.out.println(starter);
     }
 
     public Player getPlayer1() {
@@ -32,5 +37,13 @@ public class GameService {
 
     public Player getPlayer2() {
         return player2;
+    }
+
+    public Player getStarter() {
+        return starter;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }
