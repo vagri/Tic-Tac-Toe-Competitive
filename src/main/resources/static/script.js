@@ -5,12 +5,32 @@ function renderLobby() {
   app.innerHTML = `
     <div id="lobby-view">
       <h1>Tic Tac Toe</h1>
-      <div class="button-container">
-        <button onclick="renderMatch()">Singleplayer</button>
-        <button onclick="renderMatch()">Multiplayer</button>
+
+      <div class="matchSection">
+        <h2>Singleplayer</h2>
+        <select id="difficulty"
+                onchange="this.style.color=this.options[this.selectedIndex].style.color"
+                style="padding: 15px; font-size: 1.2rem; font-weight: bold; border-radius: 12px; width: 100%; color: black;">
+          <option value="" disabled selected>Choose Difficulty</option>
+          <option value="easy" style="color: green;">Easy</option>
+          <option value="medium" style="color: yellow;">Medium</option>
+          <option value="hard" style="color: orange;">Hard</option>
+        </select>
+        <button onclick="renderMatch()">Start</button>
+      </div>
+
+      <div class="matchSection">
+        <h2>Multiplayer</h2>
+        <button>Create Lobby</button>
+        <h3>Room Code:</h3>
+        <input type="text" placeholder="Enter code">
+        <button>Join Lobby</button>
+      </div>
+
+      <div class="othersSection">
         <button onclick="renderProfile()">Profile</button>
         <button onclick="renderLeaderboard()">Leaderboard</button>
-        <button onclick="quitGame()">Quit Game</button>
+        <button onclick="signOut()">Sign Out</button>
       </div>
     </div>
   `;
@@ -84,7 +104,7 @@ function renderProfile() {
       <div class="profile-name">Swag</div>
 
       <div class="profile-stats">
-        <span>Wins: 15</span> |
+        <span>Games: 15</span> |
         <span>Wins: 11</span> |
         <span>Ties: 3</span> |
         <span>Losses: 1</span>
@@ -199,7 +219,7 @@ function renderLeaderboard() {
 }
 
 /* ---------------- QUIT GAME ---------------- */
-function quitGame() {
+function signOut() {
   app.innerHTML = `
     <div id="quit-view">
       <h2>Thanks for playing!</h2>
