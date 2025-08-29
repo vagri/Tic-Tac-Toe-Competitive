@@ -1,15 +1,24 @@
 window.startSingleplayerGame = async function() {
-    try {
-        const response = await fetch('http://localhost:8080/game/start', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        });
+    const response = await fetch('http://localhost:8080/game/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+    });
+    if (!response.ok) throw new Error('Failed to start the game');
+    return await response.json();
+};
 
-        if (!response.ok) throw new Error('Failed to start the game');
+window.sendStarterChoice = async function(starterKey) {
+    const response = await fetch('http://localhost:8080/game/starter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ starter: starterKey })
+    });
+    if (!response.ok) throw new Error('Failed to set starter');
+    return await response.json();
+};
 
-        return response.json(); // returns player info
-    } catch (error) {
-        console.error('API error:', error);
-        throw error;
-    }
+window.getProfile = async function(playerId) {
+    const response = await fetch(`http://localhost:8080/game/profile/${playerId}`);
+    if (!response.ok) throw new Error('Failed to fetch profile');
+    return await response.json();
 };

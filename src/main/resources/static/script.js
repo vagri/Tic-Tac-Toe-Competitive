@@ -132,28 +132,36 @@ async function startMatch(starterKey) {
 }
 
 /* ---------------- PROFILE ---------------- */
-function renderProfile() {
-  app.innerHTML = `
-    <div id="profile-view">
-      <h2>Profile</h2>
+async function renderProfile() {
+    try {
+        const player = await window.getProfile(2); // temporarily ID 2
 
-      <div class="profile-name">Swag</div>
+        app.innerHTML = `
+            <div id="profile-view">
+                <h2>Profile</h2>
 
-      <div class="profile-stats">
-        <span>Games: 15</span> |
-        <span>Wins: 11</span> |
-        <span>Ties: 3</span> |
-        <span>Losses: 1</span>
-      </div>
+                <div class="profile-name">${player.name}</div>
 
-      <div class="profile-rank">
-        <span class="rank-name">High Schooler</span>
-      </div>
+                <div class="profile-stats">
+                    <span>Games: ${player.games}</span> |
+                    <span>Wins: ${player.wins}</span> |
+                    <span>Ties: ${player.ties}</span> |
+                    <span>Losses: ${player.loses}</span>
+                </div>
 
-      <button onclick="renderLobby()">Back to Lobby</button>
-    </div>
-  `;
+                <div class="profile-rank">
+                    <span class="rank-name">${player.rank}</span>
+                </div>
+
+                <button onclick="renderLobby()">Back to Lobby</button>
+            </div>
+        `;
+    } catch (error) {
+        console.error('Error fetching profile:', error);
+        app.innerHTML = `<div class="error">Could not load profile. Try again later.</div>`;
+    }
 }
+
 
 /* ---------------- LEADERBOARD ---------------- */
 const players = [

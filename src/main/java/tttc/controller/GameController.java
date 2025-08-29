@@ -43,4 +43,25 @@ public class GameController {
                 "starter", starterKey
         );
     }
+
+    // --------------- Get Profile Info ----------------------
+    @GetMapping("/profile")
+    @ResponseBody
+    public Map<String, Object> getProfile() {
+        long playerId = 2; // temporarily hardcoded
+
+        Player player = gameService.getProfileById(playerId);
+        if (player == null) {
+            return Map.of("error", "Player not found");
+        }
+
+        return Map.of(
+                "name", player.getName(),
+                "games", player.getGames(),
+                "wins", player.getWins(),
+                "ties", player.getTies(),
+                "loses", player.getLoses(),
+                "rank", player.getRank()
+        );
+    }
 }

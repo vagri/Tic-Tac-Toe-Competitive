@@ -16,3 +16,9 @@ window.sendStarterChoice = async function(starterKey) {
     if (!response.ok) throw new Error('Failed to set starter');
     return await response.json();
 };
+
+window.getProfile = async function(playerId) {
+    const response = await fetch(`http://localhost:8080/game/profile/${playerId}`);
+    if (!response.ok) throw new Error('Failed to fetch profile');
+    return await response.json();
+};

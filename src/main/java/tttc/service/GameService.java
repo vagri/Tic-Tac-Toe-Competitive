@@ -1,11 +1,16 @@
 package tttc.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tttc.model.Board;
 import tttc.model.Player;
+import tttc.repository.PlayerRepository;
 
 @Service
 public class GameService {
+
+    @Autowired
+    private PlayerRepository playerRepository; // <-- inject repository
 
     private Player player1;
     private Player player2;
@@ -28,7 +33,11 @@ public class GameService {
         board.resetBoard();
 
         starter = "player1".equals(starterKey) ? player1 : player2;
-        //System.out.println(starter);
+    }
+
+    // ---------------- PROFILE ----------------
+    public Player getProfileById(long id) {
+        return playerRepository.findById(id).orElse(null); // returns null if not found
     }
 
     public Player getPlayer1() {
